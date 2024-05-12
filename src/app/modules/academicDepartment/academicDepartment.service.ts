@@ -8,7 +8,10 @@ import { IAcademicDepartmentFilter } from "./academicDepartment.interface";
 
 const insertIntoDb = async(academicDepartmentData: AcademicDepartment):Promise<AcademicDepartment> => {
     const result = await prisma.academicDepartment.create({
-        data: academicDepartmentData
+        data: academicDepartmentData,
+        include: {
+            academicFaculty: true
+        }
     });
     return result;
 }
