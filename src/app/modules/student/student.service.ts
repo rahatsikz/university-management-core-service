@@ -118,9 +118,24 @@ const updateIntoDB = async(id: string, payload: Partial<Student>): Promise<Stude
     return result
 }
 
+const deleteFromDB = async(id: string): Promise<Student> => {
+    const result = await prisma.student.delete({
+        where: {
+            id
+        },
+        include: {
+            academicFaculty: true,
+            academicDepartment: true,
+            academicSemester: true
+        }
+    })
+    return result
+}
+
 export const StudentService = {
     insertIntoDB,
     getAllFromDB,
     getDataById,
-    updateIntoDB
+    updateIntoDB,
+    deleteFromDB
 }
