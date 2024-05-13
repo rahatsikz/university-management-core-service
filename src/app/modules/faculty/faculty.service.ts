@@ -85,7 +85,21 @@ const getAllFromDB = async(options: IPaginationOptions, filters: IFacultyFilterO
     
 }
 
+const getDataByID = async(id: string):Promise<Faculty | null> => {
+    const result = await prisma.faculty.findUnique({
+        where: {
+            id
+        },
+        include: {
+            academicFaculty:true,
+            academicDepartment:true
+        }
+    });
+    return result
+}
+
 export const FacultyService = {
     insertIntoDB,
-    getAllFromDB
+    getAllFromDB,
+    getDataByID
 }

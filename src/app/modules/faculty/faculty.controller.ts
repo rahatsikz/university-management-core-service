@@ -2,10 +2,10 @@ import { Faculty } from "@prisma/client";
 import { Request, Response } from "express";
 import httpStatus from "http-status";
 import catchAsync from "../../../shared/catchAsync";
-import sendResponse from "../../../shared/sendResponse";
-import { FacultyService } from "./faculty.service";
 import pick from "../../../shared/pick";
+import sendResponse from "../../../shared/sendResponse";
 import { facultyFilterableFields } from "./faculty.constant";
+import { FacultyService } from "./faculty.service";
 
 const insertIntoDB = catchAsync(async(req: Request, res:Response)=> {
     const result = await FacultyService.insertIntoDB(req.body);
@@ -35,7 +35,18 @@ const getAllFromDB = catchAsync(async(req: Request, res:Response)=> {
 
 })
 
+const getDataByID = catchAsync(async(req: Request, res:Response)=> {
+    const result = await FacultyService.getDataByID(req.params.id);
+    sendResponse<Faculty>(res, {
+        statusCode: httpStatus.OK,
+        success: true,
+        message: "Faculty fetched successfully",
+        data: result
+    })
+})
+
 export const FacultyController = {
     insertIntoDB,
-    getAllFromDB
+    getAllFromDB,
+    getDataByID
 }
