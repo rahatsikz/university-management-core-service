@@ -8,6 +8,7 @@ const router = express.Router();
 router.get("/", StudentController.getAllFromDB);
 router.get("/:id", StudentController.getDataById);
 router.post("/",validateRequest(StudentValidation.createStudents), StudentController.insertIntoDB);
+router.patch("/:id", validateRequest(StudentValidation.updateStudent), StudentController.updateIntoDB);
 
 
 export const StudentRoutes = router;
