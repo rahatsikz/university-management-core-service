@@ -73,9 +73,20 @@ const deleteFromDB = async(id: string):Promise<Building> => {
     return result
 }
 
+const updateIntoDB = async(id: string, payload: Partial<Building>):Promise<Building> => {
+    const result = await prisma.building.update({
+        where: {
+            id
+        },
+        data: payload
+    })
+    return result
+}
+
 export const BuildingService = {
     insertIntoDB,
     getAllFromDB,
     getDataByID,
-    deleteFromDB
+    deleteFromDB,
+    updateIntoDB
 }

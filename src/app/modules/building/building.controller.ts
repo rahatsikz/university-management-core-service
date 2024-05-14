@@ -58,9 +58,23 @@ const deleteFromDB = catchAsync(async(req: Request, res:Response)=> {
     })
 })
 
+const updateIntoDB = catchAsync(async(req: Request, res:Response)=> {
+    const {id} = req.params
+    const payload = req.body
+    
+    const result = await BuildingService.updateIntoDB(id, payload);
+    sendResponse<Building>(res, {
+        statusCode: httpStatus.OK,
+        success: true,
+        message: "Building updated successfully",
+        data: result
+    })
+})
+
 export const BuildingController = {
     insertIntoDB,
     getAllFromDB,
     getDataByID,
-    deleteFromDB
+    deleteFromDB,
+    updateIntoDB
 }
