@@ -10,8 +10,16 @@ const createAcademicDepartment = z.object({
         })
 
     })
+});
+
+const updateAcademicDepartment = z.object({
+    body: z.object({
+        title: z.string().optional(),
+        academicFacultyId: z.string().optional()
+    })
 })
 
 export const AcademicDepartmentValidation = {
-    createAcademicDepartment
+    createAcademicDepartment,
+    updateAcademicDepartment
 }
