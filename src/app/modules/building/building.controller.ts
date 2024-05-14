@@ -19,7 +19,7 @@ const insertIntoDB = catchAsync(async(req: Request, res:Response)=> {
 });
 
 const getAllFromDB = catchAsync(async(req: Request, res:Response)=> {
-    
+
     const options = pick(req.query, ['sortBy', 'sortOrder', 'limit', 'page']);
     const filters = pick(req.query, buildingFilterableFields);
 
@@ -34,7 +34,33 @@ const getAllFromDB = catchAsync(async(req: Request, res:Response)=> {
     })
 })
 
+const getDataByID = catchAsync(async(req: Request, res:Response)=> {
+    const {id} = req.params;
+
+    const result = await BuildingService.getDataByID(id);
+    sendResponse<Building>(res, {
+        statusCode: httpStatus.OK,
+        success: true,
+        message: "Building fetched successfully",
+        data: result
+    })
+})
+
+const deleteFromDB = catchAsync(async(req: Request, res:Response)=> {
+    const {id} = req.params;
+
+    const result = await BuildingService.deleteFromDB(id);
+    sendResponse<Building>(res, {
+        statusCode: httpStatus.OK,
+        success: true,
+        message: "Building deleted successfully",
+        data: result
+    })
+})
+
 export const BuildingController = {
     insertIntoDB,
-    getAllFromDB
+    getAllFromDB,
+    getDataByID,
+    deleteFromDB
 }

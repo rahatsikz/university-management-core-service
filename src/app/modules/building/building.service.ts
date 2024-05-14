@@ -55,7 +55,27 @@ const getAllFromDB = async(options: IPaginationOptions, filters: IBuildingFilter
     }
 }
 
+const getDataByID = async(id: string):Promise<Building | null> => {
+    const result = await prisma.building.findUnique({
+        where: {
+            id
+        }
+    })
+    return result
+}
+
+const deleteFromDB = async(id: string):Promise<Building> => {
+    const result = await prisma.building.delete({
+        where: {
+            id
+        }
+    })
+    return result
+}
+
 export const BuildingService = {
     insertIntoDB,
-    getAllFromDB
+    getAllFromDB,
+    getDataByID,
+    deleteFromDB
 }

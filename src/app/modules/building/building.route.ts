@@ -8,10 +8,15 @@ import { BuildingValidation } from './building.validation';
 const router= express.Router();
 
 router.get("/", BuildingController.getAllFromDB);
+router.get("/:id", BuildingController.getDataByID);
 
 router.post("/",
 auth(ENUM_USER_ROLE.ADMIN, ENUM_USER_ROLE.SUPER_ADMIN),
 validateRequest(BuildingValidation.createBuilding),
-BuildingController.insertIntoDB)
+BuildingController.insertIntoDB);
+
+router.delete("/:id",
+auth(ENUM_USER_ROLE.ADMIN, ENUM_USER_ROLE.SUPER_ADMIN),
+BuildingController.deleteFromDB);
 
 export const BuildingRoutes = router 
