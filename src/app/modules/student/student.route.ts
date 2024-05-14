@@ -17,7 +17,8 @@ StudentController.insertIntoDB);
 
 router.patch("/:id",
 auth(ENUM_USER_ROLE.ADMIN, ENUM_USER_ROLE.SUPER_ADMIN),
-validateRequest(StudentValidation.updateStudent), StudentController.updateIntoDB);
+validateRequest(StudentValidation.updateStudent), 
+StudentController.updateIntoDB);
 
 router.delete("/:id",
 auth(ENUM_USER_ROLE.ADMIN, ENUM_USER_ROLE.SUPER_ADMIN),
