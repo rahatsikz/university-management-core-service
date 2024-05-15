@@ -7,6 +7,8 @@ import { RoomValidation } from './room.validation';
 
 const router = expess.Router();
 
+router.get("/", RoomController.getAllFromDB);
+
 router.post("/",
 auth(ENUM_USER_ROLE.ADMIN, ENUM_USER_ROLE.SUPER_ADMIN),
 validateRequest(RoomValidation.createRoom),
