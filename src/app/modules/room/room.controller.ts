@@ -34,7 +34,48 @@ const getAllFromDB = catchAsync(async(req: Request, res:Response)=> {
     })
 })
 
+const getDataByID = catchAsync(async(req: Request, res:Response)=> {
+    const {id} = req.params;
+
+    const result = await RoomService.getDataByID(id);
+
+    sendResponse<Room>(res, {
+        statusCode: httpStatus.OK,
+        success: true,
+        message: "Room fetched successfully",
+        data: result
+    })
+});
+
+const updateIntoDB = catchAsync(async(req: Request, res:Response)=> {
+    const {id} = req.params
+    const payload = req.body
+    
+    const result = await RoomService.updateIntoDB(id, payload);
+    sendResponse<Room>(res, {
+        statusCode: httpStatus.OK,
+        success: true,
+        message: "Room updated successfully",
+        data: result
+    })
+})
+
+const deleteFromDB = catchAsync(async(req: Request, res:Response)=> {
+    const {id} = req.params;
+
+    const result = await RoomService.deleteFromDB(id);
+    sendResponse<Room>(res, {
+        statusCode: httpStatus.OK,
+        success: true,
+        message: "Room deleted successfully",
+        data: result
+    })
+})
+
 export const RoomController = {
     insertIntoDB,
-    getAllFromDB
+    getAllFromDB,
+    getDataByID,
+    updateIntoDB,
+    deleteFromDB
 }
