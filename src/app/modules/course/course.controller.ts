@@ -44,6 +44,19 @@ const getDataByID = catchAsync(async(req: Request, res:Response)=> {
     })
 })
 
+const updateIntoDB = catchAsync(async(req: Request, res:Response)=> {
+    const {id} = req.params
+    const payload = req.body
+    
+    const result = await CourseService.updateIntoDB(id, payload);
+    sendResponse<Course>(res, {
+        statusCode: httpStatus.OK,
+        success: true,
+        message: "Course updated successfully",
+        data: result
+    })
+})
+
 const deleteFromDB = catchAsync(async(req: Request, res:Response)=> {
     const {id} = req.params;
 
@@ -60,5 +73,6 @@ export const CourseController = {
     insertIntoDB,
     getAllFromDB,
     getDataByID,
-    deleteFromDB
+    deleteFromDB,
+    updateIntoDB
 }
