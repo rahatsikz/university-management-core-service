@@ -1,4 +1,4 @@
-import { Faculty } from "@prisma/client";
+import { CourseFaculty, Faculty } from "@prisma/client";
 import { Request, Response } from "express";
 import httpStatus from "http-status";
 import catchAsync from "../../../shared/catchAsync";
@@ -70,10 +70,37 @@ const deleteFromDB = catchAsync(async(req: Request, res:Response)=> {
     })
 })
 
+
+const assignCourses = catchAsync(async(req: Request, res:Response)=> {
+    const {id} = req.params
+    const payload = req.body.courses
+    const result = await FacultyService.assignCourses(id, payload);
+    sendResponse<CourseFaculty[]>(res, {
+        statusCode: httpStatus.OK,
+        success: true,
+        message: "Course added to faculty successfully",
+        data: result
+    })
+})
+
+const removeCourses = catchAsync(async(req: Request, res:Response)=> {
+    const {id} = req.params
+    const payload = req.body.courses
+    const result = await FacultyService.removeCourses(id, payload);
+    sendResponse<CourseFaculty[]>(res, {
+        statusCode: httpStatus.OK,
+        success: true,
+        message: "Course removed from faculty successfully",
+        data: result
+    })
+})
+
 export const FacultyController = {
     insertIntoDB,
     getAllFromDB,
     getDataByID,
     updateIntoDB,
-    deleteFromDB
+    deleteFromDB,
+    assignCourses,
+    removeCourses
 }
