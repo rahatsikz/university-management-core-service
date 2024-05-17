@@ -41,6 +41,16 @@ const getDataByID = catchAsync(async(req: Request, res:Response)=> {
     })
 })
 
+const updateOneInDB = catchAsync(async(req: Request, res:Response)=> {
+    const result = await SemesterRegistrationService.updateOneInDB(req.params.id, req.body);
+    sendResponse<SemesterRegistration>(res, {
+        statusCode: httpStatus.OK,
+        success: true,
+        message: "Semester Registration updated successfully",
+        data: result
+    })
+})
+
 const deleteFromDB = catchAsync(async(req: Request, res:Response)=> {
     const result = await SemesterRegistrationService.deleteFromDB(req.params.id);
     sendResponse<SemesterRegistration>(res, {
@@ -55,5 +65,6 @@ export const SemesterRegistrationController = {
     insertIntoDB,
     getAllFromDB,
     getDataByID,
-    deleteFromDB
+    deleteFromDB,
+    updateOneInDB
 }
