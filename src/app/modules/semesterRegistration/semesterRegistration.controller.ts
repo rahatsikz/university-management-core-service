@@ -31,7 +31,29 @@ const getAllFromDB = catchAsync(async(req: Request, res:Response)=> {
     })
 })
 
+const getDataByID = catchAsync(async(req: Request, res:Response)=> {
+    const result = await SemesterRegistrationService.getDataByID(req.params.id);
+    sendResponse<SemesterRegistration>(res, {
+        statusCode: httpStatus.OK,
+        success: true,
+        message: "Semester Registration fetched successfully",
+        data: result
+    })
+})
+
+const deleteFromDB = catchAsync(async(req: Request, res:Response)=> {
+    const result = await SemesterRegistrationService.deleteFromDB(req.params.id);
+    sendResponse<SemesterRegistration>(res, {
+        statusCode: httpStatus.OK,
+        success: true,
+        message: "Semester Registration deleted successfully",
+        data: result
+    })
+})
+
 export const SemesterRegistrationController = {
     insertIntoDB,
-    getAllFromDB
+    getAllFromDB,
+    getDataByID,
+    deleteFromDB
 }

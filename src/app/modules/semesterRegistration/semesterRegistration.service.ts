@@ -104,7 +104,34 @@ const getAllFromDB = async(options: IPaginationOptions, filters:ISemesterRegistr
 
 }
 
+const getDataByID = async(id: string):Promise<SemesterRegistration | null> => {
+    const result = await prisma.semesterRegistration.findUnique({
+        where: {
+            id
+        },
+        include: {
+            academicSemester: true
+        }
+    });
+
+    return result
+}
+
+const deleteFromDB = async(id: string):Promise<SemesterRegistration> => {
+    const result = await prisma.semesterRegistration.delete({
+        where: {
+            id
+        },
+        include: {
+            academicSemester: true
+        }
+    });
+    return result
+}
+
 export const SemesterRegistrationService = {
     insertIntoDB,
-    getAllFromDB
+    getAllFromDB,
+    getDataByID,
+    deleteFromDB
 }
