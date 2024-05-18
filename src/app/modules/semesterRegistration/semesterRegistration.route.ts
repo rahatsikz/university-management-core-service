@@ -10,6 +10,10 @@ const router = express.Router();
 router.get("/", SemesterRegistrationController.getAllFromDB);
 router.get("/:id", SemesterRegistrationController.getDataByID);
 
+router.post("/start-registration",
+auth(ENUM_USER_ROLE.STUDENT),
+SemesterRegistrationController.startMyRegistration);
+
 router.post("/", 
 auth(ENUM_USER_ROLE.ADMIN, ENUM_USER_ROLE.SUPER_ADMIN),
 validateRequest(SemesterRegistrationValidation.createSemesterRegistration),
