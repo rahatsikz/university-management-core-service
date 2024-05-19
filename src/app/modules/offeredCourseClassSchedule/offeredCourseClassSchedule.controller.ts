@@ -33,7 +33,44 @@ const getAllFromDB = catchAsync(async(req: Request, res:Response)=> {
     })
 })
 
+const getDataByID = catchAsync(async(req: Request, res:Response)=> {
+    const result = await OfferedCourseClassScheduleService.getDataByID(req.params.id);
+    sendResponse<OfferedCourseClassSchedule>(res, {
+        statusCode: httpStatus.OK,
+        success: true,
+        message: "Offered course class schedule fetched successfully",
+        data: result
+    })
+})
+
+const updateIntoDB = catchAsync(async(req: Request, res:Response)=> {
+    const {id} = req.params
+    const payload = req.body
+    
+    const result = await OfferedCourseClassScheduleService.updateIntoDB(id, payload);
+    sendResponse<OfferedCourseClassSchedule>(res, {
+        statusCode: httpStatus.OK,
+        success: true,
+        message: "Offered course class schedule updated successfully",
+        data: result
+    })
+})
+
+const deleteFromDB = catchAsync(async(req: Request, res:Response)=> {
+    const {id} = req.params;
+    const result = await OfferedCourseClassScheduleService.deleteFromDB(id);
+    sendResponse<OfferedCourseClassSchedule>(res, {
+        statusCode: httpStatus.OK,
+        success: true,
+        message: "Offered course class schedule deleted successfully",
+        data: result
+    })
+})
+
 export const OfferedCourseClassScheduleController = {
     insertIntoDB,
-    getAllFromDB
+    getAllFromDB,
+    getDataByID,
+    updateIntoDB,
+    deleteFromDB
 }

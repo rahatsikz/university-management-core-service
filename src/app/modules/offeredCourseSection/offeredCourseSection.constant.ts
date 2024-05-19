@@ -15,3 +15,13 @@ export const offeredCourseSectionRelationalFieldsMapper: { [key: string]: string
     offeredCourseId: 'offeredCourse',
     semesterRegistrationId: 'semesterRegistration'
 };
+
+export const daysInWeek = [
+    'SATURDAY',
+    'SUNDAY',
+    'MONDAY',
+    'TUESDAY',
+    'WEDNESDAY',
+    'THURSDAY',
+    'FRIDAY'
+];

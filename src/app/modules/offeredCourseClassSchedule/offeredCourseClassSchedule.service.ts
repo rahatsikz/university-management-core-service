@@ -96,7 +96,57 @@ const getAllFromDB = async(options: IPaginationOptions, filters:IOfferedCourseCl
     }
 }
 
+const getDataByID = async(id: string):Promise<OfferedCourseClassSchedule | null> => {
+    const result = await prisma.offeredCourseClassSchedule.findUnique({
+        where: {
+            id
+        },
+        include: {
+            offeredCourseSection: true,
+            semesterRegistration: true,
+            faculty: true,
+            room: true
+        }
+    });
+    return result;
+}
+
+const updateIntoDB = async(id: string, payload: Partial<OfferedCourseClassSchedule>)
+:Promise<OfferedCourseClassSchedule | null> => {
+    const result = await prisma.offeredCourseClassSchedule.update({
+        where: {
+            id
+        },
+        data: payload,
+        include: {
+            offeredCourseSection: true,
+            semesterRegistration: true,
+            faculty: true,
+            room: true
+        }
+    });
+    return result;
+}
+
+const deleteFromDB = async(id: string):Promise<OfferedCourseClassSchedule> => {
+    const result = await prisma.offeredCourseClassSchedule.delete({
+        where: {
+            id
+        },
+        include: {
+            offeredCourseSection: true,
+            semesterRegistration: true,
+            faculty: true,
+            room: true
+        }
+    });
+    return result;
+}
+
 export const OfferedCourseClassScheduleService = {
     insertIntoDB,
-    getAllFromDB
+    getAllFromDB,
+    getDataByID,
+    updateIntoDB,
+    deleteFromDB
 }
