@@ -7,25 +7,39 @@ import { SemesterRegistrationValidation } from './semesterRegistration.validatio
 
 const router = express.Router();
 
-router.get("/", SemesterRegistrationController.getAllFromDB);
-router.get("/:id", SemesterRegistrationController.getDataByID);
+router.get('/', SemesterRegistrationController.getAllFromDB);
+router.get('/:id', SemesterRegistrationController.getDataByID);
 
-router.post("/start-registration",
-auth(ENUM_USER_ROLE.STUDENT),
-SemesterRegistrationController.startMyRegistration);
+router.post(
+  '/start-registration',
+  auth(ENUM_USER_ROLE.STUDENT),
+  SemesterRegistrationController.startMyRegistration
+);
 
-router.post("/", 
-auth(ENUM_USER_ROLE.ADMIN, ENUM_USER_ROLE.SUPER_ADMIN),
-validateRequest(SemesterRegistrationValidation.createSemesterRegistration),
-SemesterRegistrationController.insertIntoDB);
+router.post(
+  '/',
+  auth(ENUM_USER_ROLE.ADMIN, ENUM_USER_ROLE.SUPER_ADMIN),
+  validateRequest(SemesterRegistrationValidation.createSemesterRegistration),
+  SemesterRegistrationController.insertIntoDB
+);
 
-router.patch("/:id", 
-auth(ENUM_USER_ROLE.ADMIN, ENUM_USER_ROLE.SUPER_ADMIN),
-validateRequest(SemesterRegistrationValidation.updateSemesterRegistration),
-SemesterRegistrationController.updateOneInDB);
+router.patch(
+  '/:id',
+  auth(ENUM_USER_ROLE.ADMIN, ENUM_USER_ROLE.SUPER_ADMIN),
+  validateRequest(SemesterRegistrationValidation.updateSemesterRegistration),
+  SemesterRegistrationController.updateOneInDB
+);
 
-router.delete("/:id", 
-auth(ENUM_USER_ROLE.ADMIN, ENUM_USER_ROLE.SUPER_ADMIN),
-SemesterRegistrationController.deleteFromDB);
+router.delete(
+  '/:id',
+  auth(ENUM_USER_ROLE.ADMIN, ENUM_USER_ROLE.SUPER_ADMIN),
+  SemesterRegistrationController.deleteFromDB
+);
 
-export const SemesterRegistrationRoutes = router
+router.post(
+  '/enroll-into-course',
+  auth(ENUM_USER_ROLE.STUDENT),
+  SemesterRegistrationController.enrollIntoCourse
+);
+
+export const SemesterRegistrationRoutes = router;
