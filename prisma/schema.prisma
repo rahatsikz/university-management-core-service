@@ -220,7 +220,7 @@ model OfferedCourseSection {
   id                       String   @id @default(uuid())
   title                    String
   maxCapacity              Int
-  currentlyEnrolledStudnet Int      @default(0)
+  currentlyEnrolledStudent Int      @default(0)
   createdAt                DateTime @default(now())
   updatedAt                DateTime @updatedAt
 
