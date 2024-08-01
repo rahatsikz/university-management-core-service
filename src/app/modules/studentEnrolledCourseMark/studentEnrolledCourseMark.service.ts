@@ -12,7 +12,11 @@ import { paginationHelpers } from '../../../helpers/paginationHelper';
 import { IGenericResponse } from '../../../interfaces/common';
 import { IPaginationOptions } from '../../../interfaces/pagination';
 import prisma from '../../../shared/prisma';
-import { IStudentEnrolledCourseMarkFilterRequest } from './studentEnrolledCourseMark.interface';
+import {
+  IStudentEnrolledCourseMarkFilterRequest,
+  IUpdateStudentCourseFinalMarksPayload,
+  IUpdateStudentMarksPayload,
+} from './studentEnrolledCourseMark.interface';
 import { StudentEnrolledCourseMarkUtils } from './studentEnrolledCourseMark.utils';
 
 const createStudentEnrolledCourseDefaultMark = async (
@@ -145,7 +149,7 @@ const getAllFromDB = async (
   };
 };
 
-const updateStudentMarks = async (payload: any) => {
+const updateStudentMarks = async (payload: IUpdateStudentMarksPayload) => {
   // console.log(payload);
   const { studentId, academicSemesterId, courseId, examType, marks } = payload;
 
@@ -186,8 +190,10 @@ const updateStudentMarks = async (payload: any) => {
   return updateStudentMarks;
 };
 
-const updateFinalMarks = async (payload: any) => {
-  console.log(payload);
+const updateFinalMarks = async (
+  payload: IUpdateStudentCourseFinalMarksPayload
+) => {
+  // console.log(payload);
 
   const { studentId, academicSemesterId, courseId } = payload;
 
