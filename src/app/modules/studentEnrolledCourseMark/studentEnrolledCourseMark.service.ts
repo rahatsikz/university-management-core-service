@@ -335,9 +335,45 @@ const updateFinalMarks = async (
   return grades;
 };
 
+const getEnrolledCourseMarks = async (
+  authUserId: string,
+  filter: {
+    academicSemesterId?: string | undefined;
+    courseId?: string | undefined;
+  }
+) => {
+  // console.log(authUserId, filter);
+
+  const result = await prisma.studentEnrolledCourseMark.findMany({
+    where: {
+      student: {
+        studentId: authUserId,
+      },
+      academicSemester: {
+        id: filter.academicSemesterId,
+      },
+      studentEnrolledCourse: {
+        course: {
+          id: filter.courseId,
+        },
+      },
+    },
+    include: {
+      studentEnrolledCourse: {
+        include: {
+          course: true,
+        },
+      },
+    },
+  });
+
+  return result;
+};
+
 export const StudentEnrolledCourseMarkService = {
   createStudentEnrolledCourseDefaultMark,
   updateStudentMarks,
   getAllFromDB,
   updateFinalMarks,
+  getEnrolledCourseMarks,
 };

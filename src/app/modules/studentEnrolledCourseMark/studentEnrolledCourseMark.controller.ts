@@ -48,8 +48,29 @@ const updateFinalMarks = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const getEnrolledCourseMarks = catchAsync(
+  async (req: Request, res: Response) => {
+    const user = req.user;
+    const filter = pick(req.query, ['courseId', 'academicSemesterId']);
+
+    const result =
+      await StudentEnrolledCourseMarkService.getEnrolledCourseMarks(
+        user?.userId,
+        filter
+      );
+
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: 'Course mark fetched successfully',
+      data: result,
+    });
+  }
+);
+
 export const StudentEnrolledCourseMarkController = {
   updateStudentMarks,
   getAllFromDB,
   updateFinalMarks,
+  getEnrolledCourseMarks,
 };
