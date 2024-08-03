@@ -274,6 +274,85 @@ const myCourses = async (
 
   return courseAndSchedule;
 };
+const getMyCourseStudents = async (
+  authUserId: string,
+  filter: {
+    academicSemesterId?: string | undefined;
+    courseId?: string | undefined;
+    courseSectionId?: string | undefined;
+  },
+  options: IPaginationOptions
+) => {
+  // console.log(authUserId, filter, options);
+  const { page, limit, skip } = paginationHelpers.calculatePagination(options);
+
+  if (!filter.academicSemesterId) {
+    const currentSemester = await prisma.academicSemester.findFirst({
+      where: {
+        isCurrent: true,
+      },
+    });
+
+    filter.academicSemesterId = currentSemester?.id;
+  }
+
+  const offeredCourseSection =
+    await prisma.studentSemesterRegistrationCourse.findMany({
+      where: {
+        offeredCourse: {
+          course: {
+            id: filter.courseId,
+          },
+        },
+        offeredCourseSection: {
+          offeredCourse: {
+            semesterRegistration: {
+              academicSemester: {
+                id: filter.academicSemesterId,
+              },
+            },
+          },
+          id: filter.courseSectionId,
+        },
+      },
+      include: {
+        student: true,
+      },
+      skip,
+      take: limit,
+    });
+
+  // console.log(offeredCourseSection);
+  const students = offeredCourseSection.map((item: any) => item.student);
+
+  const total = await prisma.studentSemesterRegistrationCourse.count({
+    where: {
+      offeredCourse: {
+        course: {
+          id: filter.courseId,
+        },
+      },
+      offeredCourseSection: {
+        offeredCourse: {
+          semesterRegistration: {
+            academicSemester: {
+              id: filter.academicSemesterId,
+            },
+          },
+        },
+        id: filter.courseSectionId,
+      },
+    },
+  });
+  return {
+    meta: {
+      total,
+      page,
+      limit,
+    },
+    data: students,
+  };
+};
 
 export const FacultyService = {
   insertIntoDB,
@@ -284,4 +363,5 @@ export const FacultyService = {
   assignCourses,
   removeCourses,
   myCourses,
+  getMyCourseStudents,
 };
